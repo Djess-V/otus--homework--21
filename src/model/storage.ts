@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import FirebaseCategoryModel from "./category/FireBaseCategoryModel";
 import FirebaseTransactionModel from "./transaction/FireBaseTransactionModel";
+import FirebaseUserProfileModel from "./user/FireBaseUserProfileModel";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA1-VaVf6vUCiFB8BYqqHcYiJOnHs1eZ4Y",
@@ -18,11 +19,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const categoryStorage = new FirebaseCategoryModel(db, "users", "categories");
+const userProfileStorage = new FirebaseUserProfileModel(
+  db,
+  "users/",
+  "/profile"
+);
+const categoryStorage = new FirebaseCategoryModel(db, "users/", "/categories");
 const transactionStorage = new FirebaseTransactionModel(
   db,
-  "users",
-  "transactions"
+  "users/",
+  "/transactions"
 );
 
 const auth = getAuth();
@@ -31,4 +37,4 @@ export function isUserSignedIn() {
   return !!getAuth().currentUser;
 }
 
-export { db, auth, categoryStorage, transactionStorage };
+export { db, auth, userProfileStorage, categoryStorage, transactionStorage };

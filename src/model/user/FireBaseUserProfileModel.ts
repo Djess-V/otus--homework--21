@@ -1,8 +1,7 @@
-import { Database, ref, set, get, child } from "firebase/database";
-import { ICategory } from "./Category";
-import CategoryModel from "./CategoryModel";
+import { Database, ref, get, child, set } from "firebase/database";
+import UserProfileModel, { IUserProfile } from "./UserProfileModel";
 
-class FirebaseCategoryModel extends CategoryModel {
+class FirebaseUserProfileModel extends UserProfileModel {
   private db;
 
   private parentCollectionName;
@@ -20,7 +19,7 @@ class FirebaseCategoryModel extends CategoryModel {
     this.collectionName = collectionName;
   }
 
-  async getAll(userId: string): Promise<Record<string, ICategory> | null> {
+  async getUserProfile(userId: string): Promise<IUserProfile | null> {
     try {
       const dbRef = ref(this.db);
       const snapshot = await get(
@@ -33,38 +32,34 @@ class FirebaseCategoryModel extends CategoryModel {
         return snapshot.val();
       }
 
-      throw new Error("No categories in Firebase!");
+      throw new Error("User with this Id was not found!");
     } catch (e) {
       console.log((e as Error).message);
       return null;
     }
   }
 
-  async create(userId: string, category: ICategory): Promise<string | null> {
+  async createUserProfile(
+    userId: string,
+    name: string
+  ): Promise<string | null> {
     try {
       await set(
         ref(
           this.db,
-          `${this.parentCollectionName}${userId}${`${this.collectionName}/`}${
-            category.id
-          }`
+          `${this.parentCollectionName}${userId}${this.collectionName}`
         ),
-        category
+        {
+          userId,
+          name,
+        }
       );
 
-      return category.id;
+      return userId;
     } catch (e) {
       return null;
     }
   }
-
-  async delete(userId: string, id: string): Promise<boolean> {
-    return false;
-  }
-
-  async deleteAll(userId: string): Promise<boolean> {
-    return false;
-  }
 }
 
-export default FirebaseCategoryModel;
+export default FirebaseUserProfileModel;

@@ -4,13 +4,13 @@ import "./Home.css";
 import { RootState } from "../../store/store";
 
 const Home: FC = () => {
-  const auth = useSelector((store: RootState) => store.auth);
+  const user = useSelector((store: RootState) => store.user);
 
   return (
     <div className="_container">
       <div className="home">
-        <h1>{`Welcome${"name" in auth ? `, ${auth.name}` : ""}!`}</h1>
-        <h2>Use the links at the top of the app for further work.</h2>
+        <h2>{`Welcome${"name" in user ? `, ${user.name}` : ""}!`}</h2>
+        <h3>Use the links at the top of the app for further work.</h3>
       </div>
     </div>
   );

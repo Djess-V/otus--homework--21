@@ -3,12 +3,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { ref, set } from "firebase/database";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../model/storage";
+import { auth, userProfileStorage } from "../../model/storage";
 import { logIn } from "../../store/slices/sliceAuth";
 import "./Auth.css";
+import { addUser } from "../../store/slices/sliceUser";
 
 type IMode = "login" | "signup";
 
@@ -35,10 +35,16 @@ const Auth: FC<IProps> = ({ mode }) => {
 
     if (mode === "login") {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const { user } = userCredential;
-          dispatch(logIn({ userId: user.uid, name }));
-          navigate("/");
+          localStorage.setItem("@djess-v/cost-management", user.uid);
+          const profile = await userProfileStorage.getUserProfile(user.uid);
+
+          if (profile) {
+            dispatch(logIn());
+            dispatch(addUser({ userId: profile.userId, name: profile.name }));
+            navigate("/");
+          }
         })
         .catch((err) => {
           setError({
@@ -48,19 +54,28 @@ const Auth: FC<IProps> = ({ mode }) => {
         });
     } else {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const { user } = userCredential;
-          dispatch(logIn({ userId: user.uid, name }));
-          set(ref(db, `users/ + ${user.uid}`), {
+          localStorage.setItem("@djess-v/cost-management", user.uid);
+          dispatch(logIn());
+          dispatch(addUser({ userId: user.uid, name }));
+          const userId = await userProfileStorage.createUserProfile(
+            user.uid,
             name,
-          });
-          navigate("/");
+          );
+
+          if (userId) {
+            navigate("/");
+          } else {
+            throw new Error(
+              "Something went wrong with the profile creation! Try again!",
+            );
+          }
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           setError({
             state: true,
-            message:
-              "Something went wrong with the profile creation! Try again!",
+            message: err.message,
           });
         });
     }
