@@ -11,7 +11,7 @@ class FirebaseUserProfileModel extends UserProfileModel {
   constructor(
     db: Database,
     parentCollectionName: string,
-    collectionName: string
+    collectionName: string,
   ) {
     super();
     this.db = db;
@@ -25,8 +25,8 @@ class FirebaseUserProfileModel extends UserProfileModel {
       const snapshot = await get(
         child(
           dbRef,
-          `${this.parentCollectionName}${userId}${this.collectionName}`
-        )
+          `${this.parentCollectionName}${userId}${this.collectionName}`,
+        ),
       );
       if (snapshot.exists()) {
         return snapshot.val();
@@ -41,18 +41,18 @@ class FirebaseUserProfileModel extends UserProfileModel {
 
   async createUserProfile(
     userId: string,
-    name: string
+    name: string,
   ): Promise<string | null> {
     try {
       await set(
         ref(
           this.db,
-          `${this.parentCollectionName}${userId}${this.collectionName}`
+          `${this.parentCollectionName}${userId}${this.collectionName}`,
         ),
         {
           userId,
           name,
-        }
+        },
       );
 
       return userId;

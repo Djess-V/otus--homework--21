@@ -8,7 +8,7 @@ abstract class UserProfileModel {
 
   abstract createUserProfile(
     userId: string,
-    name: string
+    name: string,
   ): Promise<string | null>;
 }
 

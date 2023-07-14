@@ -5,7 +5,7 @@ import { createCategory } from "../../model/category/Category";
 import { categoryStorage } from "../../model/storage";
 import "./Setting.css";
 import store, { RootState } from "../../store/store";
-import { IUserProfile } from "../../model/user/UserProfileModel";
+import { IUserProfile } from "../../model/userProfile/UserProfileModel";
 import { addCategory } from "../../store/slices/sliceCategories";
 import {
   convertCategoryForStore,
