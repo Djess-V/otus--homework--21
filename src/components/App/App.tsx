@@ -5,6 +5,8 @@ import Home from "../Home/Home";
 import Auth from "../Auth/Auth";
 import About from "../About/About";
 import Setting from "../Setting/Setting";
+import Expenses from "../Expenses/Expenses";
+import "./App.css";
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +17,7 @@ const App = () => (
       <Route path="login" element={<Auth mode="login" />} />
       <Route path="signup" element={<Auth mode="signup" />} />
       <Route path="setting" element={<Setting />} />
+      <Route path="expenses" element={<Expenses />} />
     </Routes>
   </BrowserRouter>
 );

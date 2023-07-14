@@ -51,6 +51,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
+    "no-console": "off",
     "default-param-last": "off",
     "class-methods-use-this": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],

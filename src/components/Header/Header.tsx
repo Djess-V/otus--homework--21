@@ -28,13 +28,13 @@ const Header: FC = () => {
             <>
               <Link
                 className={`nav-header__link ${
-                  location.pathname === "/costs"
+                  location.pathname === "/expenses"
                     ? "nav-header__link_active"
                     : ""
                 }`}
-                to="/costs"
+                to="/expenses"
               >
-                COSTS
+                EXPENSES
               </Link>
               <Link
                 className={`nav-header__link ${

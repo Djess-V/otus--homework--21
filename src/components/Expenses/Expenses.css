@@ -1,18 +1,18 @@
-.category {
+.expenses {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.category__title {
+.expenses__title {
   margin-bottom: 0;
   line-height: 1.5;
   margin-top: 0;
   font-weight: 500;
 }
 
-.category__form {
+.expenses__form {
   width: 100%;
   max-width: 500px;
   padding: 20px;
@@ -20,11 +20,11 @@
   flex-direction: column;
 }
 
-.category__form_label {
+.expenses__form_label {
   padding: 10px 0;
 }
 
-.category__form_input {
+.expenses__form_input {
   width: 100%;
   max-height: 40px;
   padding: 10px;
@@ -33,26 +33,18 @@
   border-radius: 6px;
 }
 
-.category__form_description {
-  min-height: 120px;
-  width: 100%;
-  margin-bottom: 16px;
-  border: 1px solid rgba(41, 41, 41, 0.3);
-  border-radius: 6px;
-}
-
-.category__form_message {
+.expenses__form_message {
   text-align: center;
   padding: 10px;
   margin: 0;
   color: rgb(11, 168, 5);
 }
 
-.form-category__buttons {
+.form-expenses__buttons {
   margin-top: 20px;
   align-self: flex-end;
 }
 
-.form-category__buttons_button:not(:last-child) {
+.form-expenses__buttons_button:not(:last-child) {
   margin-right: 25px;
 }

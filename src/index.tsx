@@ -3,11 +3,15 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./components/App/App";
 import store from "./store/store";
-import "./default.css";
 import { logIn } from "./store/slices/sliceAuth";
-import { categoryStorage, userProfileStorage } from "./model/storage";
+import {
+  categoryStorage,
+  expenseStorage,
+  userProfileStorage,
+} from "./model/storage";
 import { addUser } from "./store/slices/sliceUser";
 import { addCategories } from "./store/slices/sliceCategories";
+import { addExpenses } from "./store/slices/sliceExpenses";
 
 // localStorage.setItem("@djess-v/cost-management", "");
 const container = document.getElementById("root") as HTMLElement;
@@ -38,6 +42,12 @@ window.addEventListener("load", async () => {
 
       if (categories) {
         store.dispatch(addCategories(categories));
+      }
+
+      const expenses = await expenseStorage.getAll(userId);
+
+      if (expenses) {
+        store.dispatch(addExpenses(expenses));
       }
     }
   } catch (e) {

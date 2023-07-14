@@ -4,16 +4,20 @@ import Subcategories from "../Subcategories/Subcategories";
 import { createCategory } from "../../model/category/Category";
 import { categoryStorage } from "../../model/storage";
 import "./Setting.css";
-import { RootState } from "../../store/store";
+import store, { RootState } from "../../store/store";
 import { IUserProfile } from "../../model/user/UserProfileModel";
 import { addCategory } from "../../store/slices/sliceCategories";
+import {
+  convertCategoryForStore,
+  convertSubcategoriesForFirebase,
+} from "../../services/convertCategory";
 
 const Setting: FC<Record<string, any>> = () => {
   const [subcategories, setSubcategories] = useState([] as string[]);
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
-  const user = useSelector((store: RootState) => store.user);
+  const user = useSelector((st: RootState) => st.user);
   const dispatch = useDispatch();
 
   const onDeleteSubcategories = (index: number) => {
@@ -33,7 +37,11 @@ const Setting: FC<Record<string, any>> = () => {
   const onFormSubmit = async (evt: FormEvent) => {
     evt.preventDefault();
 
-    const category = createCategory(categoryName, description, subcategories);
+    const category = createCategory(
+      categoryName,
+      description,
+      convertSubcategoriesForFirebase(subcategories),
+    );
 
     const categoryId = await categoryStorage.create(
       (user as IUserProfile).userId,
@@ -42,7 +50,7 @@ const Setting: FC<Record<string, any>> = () => {
 
     if (categoryId) {
       setMessage("Category added!");
-      dispatch(addCategory({ categoryId: category }));
+      dispatch(addCategory(convertCategoryForStore(category)));
     } else {
       setMessage("Error of category creation in Firebase!");
     }

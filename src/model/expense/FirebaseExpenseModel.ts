@@ -1,12 +1,9 @@
 import { Database, ref, set, get, child } from "firebase/database";
-import { ICategory } from "./Category";
-import CategoryModel from "./CategoryModel";
-import {
-  IConvertCategory,
-  convertCategoriesForStore,
-} from "../../services/convertCategory";
+import ExpenseModel from "./ExpenseModel";
+import { IExpense } from "./Expense";
+import { convertExpensesForStore } from "../../services/convertExpense";
 
-class FirebaseCategoryModel extends CategoryModel {
+class FirebaseExpenseModel extends ExpenseModel {
   private db;
 
   private parentCollectionName;
@@ -24,7 +21,7 @@ class FirebaseCategoryModel extends CategoryModel {
     this.collectionName = collectionName;
   }
 
-  async getAll(userId: string): Promise<IConvertCategory[] | null> {
+  async getAll(userId: string): Promise<IExpense[] | null> {
     try {
       const dbRef = ref(this.db);
       const snapshot = await get(
@@ -34,29 +31,29 @@ class FirebaseCategoryModel extends CategoryModel {
         ),
       );
       if (snapshot.exists()) {
-        return convertCategoriesForStore(snapshot.val());
+        return convertExpensesForStore(snapshot.val());
       }
 
-      throw new Error("No categories in Firebase!");
+      throw new Error("No expenses in Firebase!");
     } catch (e) {
       console.log((e as Error).message);
       return null;
     }
   }
 
-  async create(userId: string, category: ICategory): Promise<string | null> {
+  async create(userId: string, expense: IExpense): Promise<string | null> {
     try {
       await set(
         ref(
           this.db,
           `${this.parentCollectionName}${userId}${`${this.collectionName}/`}${
-            category.id
+            expense.id
           }`,
         ),
-        category,
+        expense,
       );
 
-      return category.id;
+      return expense.id;
     } catch (e) {
       return null;
     }
@@ -71,4 +68,4 @@ class FirebaseCategoryModel extends CategoryModel {
   }
 }
 
-export default FirebaseCategoryModel;
+export default FirebaseExpenseModel;

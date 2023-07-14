@@ -55,8 +55,8 @@
     "webpack-dev-server": "^4.15.1"
   },
   "lint-staged": {
-    "*.tsx": "eslint --cache --fix",
-    "*.{tsx,css,scss}": "prettier --write"
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{ts,tsx,css,md}": "prettier --write"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
