@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { createExpense } from "../../model/expense/Expense";
 import { RootState } from "../../store/store";
-import "./Expenses.css";
 import { addZero } from "../../services/serviceFunctions";
 import { expenseStorage } from "../../model/storage";
 import { addExpense } from "../../store/slices/sliceExpenses";
+import { IConvertCategory } from "../../services/convertCategory";
+import "./Expenses.css";
 
 const Expenses: FC = () => {
   const now = new Date();
@@ -37,7 +38,10 @@ const Expenses: FC = () => {
       (
         categories.find((el) => el.id === selectedCategory.value)
           ?.subcategories || []
-      ).map((element) => ({ value: element.id, label: element.name })),
+      ).map((element: IConvertCategory) => ({
+        value: element.id,
+        label: element.name,
+      })),
     [categories, selectedCategory],
   );
 
@@ -106,7 +110,6 @@ const Expenses: FC = () => {
               }
             }}
             options={categoriesForSelection}
-            required
           />
           <label className="expenses__form_label" htmlFor="subcategory">
             Subcategory:
