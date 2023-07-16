@@ -34,7 +34,7 @@ module.exports = {
   plugins: ["jest", "@typescript-eslint", "react"],
   ignorePatterns: ["**/dist/**"],
   rules: {
-    "import/extensions": ["warn", { ts: "never", tsx: "never" }],
+    "import/extensions": ["warn", { css: "never", ts: "never", tsx: "never" }],
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": [
       "error",

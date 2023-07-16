@@ -7,6 +7,7 @@ import About from "../About/About";
 import Setting from "../Setting/Setting";
 import Expenses from "../Expenses/Expenses";
 import "./App.css";
+import Report from "../Report/Report";
 
 const App = () => (
   <BrowserRouter>
@@ -18,6 +19,7 @@ const App = () => (
       <Route path="signup" element={<Auth mode="signup" />} />
       <Route path="setting" element={<Setting />} />
       <Route path="expenses" element={<Expenses />} />
+      <Route path="report/*" element={<Report />} />
     </Routes>
   </BrowserRouter>
 );

@@ -14,7 +14,7 @@ const NODE_ENV: Mode = process.env.NODE_ENV as Mode;
 const config: webpack.Configuration = {
   entry: { index: resolve(__dirname, "./src/index.tsx") },
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx"],
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
   },
   output: {
     path: resolve(__dirname, "dist"),
@@ -36,7 +36,6 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.css$/i,
-        exclude: /node_modules/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {

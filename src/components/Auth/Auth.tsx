@@ -5,10 +5,12 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, userProfileStorage } from "../../model/storage";
+import { auth, categoryStorage, expenseStorage, userProfileStorage } from "../../model/storage";
 import { logIn } from "../../store/slices/sliceAuth";
 import "./Auth.css";
 import { addUser } from "../../store/slices/sliceUser";
+import { addCategories } from "../../store/slices/sliceCategories";
+import { addExpenses } from "../../store/slices/sliceExpenses";
 
 type IMode = "login" | "signup";
 
@@ -43,6 +45,19 @@ const Auth: FC<IProps> = ({ mode }) => {
           if (profile) {
             dispatch(logIn());
             dispatch(addUser({ userId: profile.userId, name: profile.name }));
+            
+            const categories = await categoryStorage.getAll(profile.userId);
+
+            if (categories) {
+              dispatch(addCategories(categories));
+            }
+
+            const expenses = await expenseStorage.getAll(profile.userId);
+
+            if (expenses) {
+              dispatch(addExpenses(expenses));
+            }
+
             navigate("/");
           }
         })
@@ -65,6 +80,19 @@ const Auth: FC<IProps> = ({ mode }) => {
           );
 
           if (userId) {
+
+            const categories = await categoryStorage.getAll(userId);
+
+            if (categories) {
+              dispatch(addCategories(categories));
+            }
+
+            const expenses = await expenseStorage.getAll(userId);
+
+            if (expenses) {
+              dispatch(addExpenses(expenses));
+            }
+
             navigate("/");
           } else {
             throw new Error(
