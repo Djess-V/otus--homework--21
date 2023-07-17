@@ -5,7 +5,12 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, categoryStorage, expenseStorage, userProfileStorage } from "../../model/storage";
+import {
+  auth,
+  categoryStorage,
+  expenseStorage,
+  userProfileStorage,
+} from "../../model/storage";
 import { logIn } from "../../store/slices/sliceAuth";
 import "./Auth.css";
 import { addUser } from "../../store/slices/sliceUser";
@@ -45,7 +50,7 @@ const Auth: FC<IProps> = ({ mode }) => {
           if (profile) {
             dispatch(logIn());
             dispatch(addUser({ userId: profile.userId, name: profile.name }));
-            
+
             const categories = await categoryStorage.getAll(profile.userId);
 
             if (categories) {
@@ -80,7 +85,6 @@ const Auth: FC<IProps> = ({ mode }) => {
           );
 
           if (userId) {
-
             const categories = await categoryStorage.getAll(userId);
 
             if (categories) {

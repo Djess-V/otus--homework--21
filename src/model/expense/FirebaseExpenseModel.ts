@@ -58,14 +58,6 @@ class FirebaseExpenseModel extends ExpenseModel {
       return null;
     }
   }
-
-  async delete(userId: string, id: string): Promise<boolean> {
-    return false;
-  }
-
-  async deleteAll(userId: string): Promise<boolean> {
-    return false;
-  }
 }
 
 export default FirebaseExpenseModel;

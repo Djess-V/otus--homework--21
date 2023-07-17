@@ -3,6 +3,7 @@ import authReducer from "./slices/sliceAuth";
 import userReducer from "./slices/sliceUser";
 import categoriesReducer from "./slices/sliceCategories";
 import expensesReducer from "./slices/sliceExpenses";
+import rangeReducer from "./slices/sliceRange";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     user: userReducer,
     categories: categoriesReducer,
     expenses: expensesReducer,
+    range: rangeReducer,
   },
 });
 

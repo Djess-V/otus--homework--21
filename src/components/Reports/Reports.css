@@ -3,15 +3,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .report__title {
-  margin-bottom: 0;
+  margin: 0 0 20px;
   line-height: 1.5;
-  margin-top: 0;
   font-weight: 500;
+  text-align: center;
 }
-  
+
+.report__nav {
+  margin: 20px 0;
+}
+
 .nav-report__list {
   padding: 0;
   margin: 0 0 24px 0;
@@ -20,7 +25,7 @@
   justify-content: flex-start;
   align-items: center;
 }
-  
+
 .list-nav-report__item {
   margin-right: 25px;
 }
@@ -28,7 +33,7 @@
 .list-nav-report__item:last-child {
   margin-right: 0;
 }
-  
+
 .list-nav-report__item_link {
   font-style: normal;
   font-weight: normal;
@@ -51,32 +56,22 @@
   line-height: 1.5;
 }
 
-.report__loader {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 32px;
-  line-height: 1.15;
+@media (max-width: 600px) {
+  .rdrDefinedRangesWrapper {
+    display: none;
+  }
 }
 
-.report__table-container {
-  display: flex;
-}
+@media (max-width: 370px) {
+  .rdrDateDisplayWrapper {
+    display: none;
+  }
 
-.report__table-filters {
-  width: 30%;
-}
+  .rdrNextPrevButton {
+    margin: 0 0.4em;
+  }
 
-.report__table-filters_filter {
-  margin-bottom: 16px;
-}
-
-.report__table-chart {
-  width: 70%;
-  padding: 10px;
-}
-
-.report__pie-chart {
-  width: 100%;
-  height: 400px;
-  padding: 16px;
+  .rdrMonth {
+    width: 24em;
+  }
 }

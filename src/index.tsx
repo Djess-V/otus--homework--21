@@ -13,7 +13,6 @@ import { addUser } from "./store/slices/sliceUser";
 import { addCategories } from "./store/slices/sliceCategories";
 import { addExpenses } from "./store/slices/sliceExpenses";
 
-// localStorage.setItem("@djess-v/cost-management", "");
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
 root.render(

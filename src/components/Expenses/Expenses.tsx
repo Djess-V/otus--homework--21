@@ -8,6 +8,7 @@ import { expenseStorage } from "../../model/storage";
 import { addExpense } from "../../store/slices/sliceExpenses";
 import { IConvertCategory } from "../../services/convertCategory";
 import "./Expenses.css";
+import { ISubcategory } from "../../model/category/Category";
 
 const Expenses: FC = () => {
   const now = new Date();
@@ -20,7 +21,9 @@ const Expenses: FC = () => {
     label: "",
   });
   const [date, setDate] = useState(
-    `${now.getFullYear()}-${addZero(now.getMonth())}-${addZero(now.getDate())}`,
+    `${now.getFullYear()}-${addZero(now.getMonth() + 1)}-${addZero(
+      now.getDate(),
+    )}`,
   );
   const [amount, setAmount] = useState("0");
   const [message, setMessage] = useState("");
@@ -38,7 +41,7 @@ const Expenses: FC = () => {
       (
         categories.find((el) => el.id === selectedCategory.value)
           ?.subcategories || []
-      ).map((element: IConvertCategory) => ({
+      ).map((element: ISubcategory) => ({
         value: element.id,
         label: element.name,
       })),
@@ -49,7 +52,7 @@ const Expenses: FC = () => {
     setSelectedCategory({ value: "", label: "" });
     setSelectedSubcategory({ value: "", label: "" });
     setDate(
-      `${now.getFullYear()}-${addZero(now.getMonth())}-${addZero(
+      `${now.getFullYear()}-${addZero(now.getMonth() + 1)}-${addZero(
         now.getDate(),
       )}`,
     );

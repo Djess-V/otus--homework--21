@@ -7,19 +7,25 @@ import About from "../About/About";
 import Setting from "../Setting/Setting";
 import Expenses from "../Expenses/Expenses";
 import "./App.css";
-import Report from "../Report/Report";
+import Reports from "../Reports/Reports";
+import ReportTable from "../Reports/Table/ReportTable";
+import ReportPieChart from "../Reports/PieChart/ReportPieChart";
 
 const App = () => (
   <BrowserRouter>
-    <Header />
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="about" element={<About />} />
-      <Route path="login" element={<Auth mode="login" />} />
-      <Route path="signup" element={<Auth mode="signup" />} />
-      <Route path="setting" element={<Setting />} />
-      <Route path="expenses" element={<Expenses />} />
-      <Route path="report/*" element={<Report />} />
+      <Route path="/" element={<Header />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="login" element={<Auth mode="login" />} />
+        <Route path="signup" element={<Auth mode="signup" />} />
+        <Route path="setting" element={<Setting />} />
+        <Route path="expenses" element={<Expenses />} />
+        <Route path="reports" element={<Reports />}>
+          <Route path="table" element={<ReportTable />} />
+          <Route path="chart" element={<ReportPieChart />} />
+        </Route>
+      </Route>
     </Routes>
   </BrowserRouter>
 );

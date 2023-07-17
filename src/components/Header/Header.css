@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .header-container {
     flex-direction: column;
     justify-content: center;
@@ -49,14 +49,14 @@
   color: #96fd81;
 }
 
-@media (max-width: 630px) {
+@media (max-width: 700px) {
   .nav-header__link {
     padding: 10px 10px;
     font-size: 0.8rem;
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 520px) {
   .header-container__title {
     font-size: 30px;
   }
@@ -64,5 +64,6 @@
   .nav-header {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
   }
 }

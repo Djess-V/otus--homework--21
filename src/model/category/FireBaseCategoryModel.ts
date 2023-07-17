@@ -1,4 +1,4 @@
-import { Database, ref, set, get, child } from "firebase/database";
+import { Database, ref, set, get, child, remove } from "firebase/database";
 import { ICategory } from "./Category";
 import CategoryModel from "./CategoryModel";
 import {
@@ -63,11 +63,20 @@ class FirebaseCategoryModel extends CategoryModel {
   }
 
   async delete(userId: string, id: string): Promise<boolean> {
-    return false;
-  }
+    try {
+      await remove(
+        ref(
+          this.db,
+          `${
+            this.parentCollectionName
+          }${userId}${`${this.collectionName}/`}${id}`,
+        ),
+      );
 
-  async deleteAll(userId: string): Promise<boolean> {
-    return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
 

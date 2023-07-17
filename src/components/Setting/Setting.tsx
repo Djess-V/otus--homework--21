@@ -6,7 +6,10 @@ import { categoryStorage } from "../../model/storage";
 import "./Setting.css";
 import store, { RootState } from "../../store/store";
 import { IUserProfile } from "../../model/userProfile/UserProfileModel";
-import { addCategory } from "../../store/slices/sliceCategories";
+import {
+  addCategory,
+  deleteCategory,
+} from "../../store/slices/sliceCategories";
 import {
   convertCategoryForStore,
   convertSubcategoriesForFirebase,
@@ -60,8 +63,39 @@ const Setting: FC<Record<string, any>> = () => {
     clearForm();
   };
 
+  const onClickDeleteButton = async (categoryId: string) => {
+    if (user.userId) {
+      const deleted = await categoryStorage.delete(user.userId, categoryId);
+
+      if (deleted) {
+        dispatch(deleteCategory(categoryId));
+      }
+    }
+  };
+
+  const categories = useSelector((st: RootState) => st.categories);
+
+  const categoryList = categories.map((category) => (
+    <li key={category.id} className="category-list__category">
+      {category.name}{" "}
+      <button
+        className="category-list__category_delete-button"
+        onClick={() => onClickDeleteButton(category.id)}
+      ></button>
+      {!!category.subcategories.length && (
+        <ul>
+          {category.subcategories.map((subcategory) => (
+            <li key={subcategory.id} className="category-list__subcategory">
+              {subcategory.name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ));
+
   return (
-    <div className="_container">
+    <div className="category-container _container">
       <div className="category">
         <h2 className="category__title">Create category:</h2>
         <form
@@ -119,6 +153,14 @@ const Setting: FC<Record<string, any>> = () => {
             </button>
           </div>
         </form>
+      </div>
+      <div className="category-list">
+        <h3 className="category-list__title">The existing categories:</h3>
+        {categoryList.length ? (
+          <ul>{categoryList}</ul>
+        ) : (
+          <p className="category-list__message">No categories!</p>
+        )}
       </div>
     </div>
   );
