@@ -4,7 +4,7 @@ import Subcategories from "../Subcategories/Subcategories";
 import { createCategory } from "../../model/category/Category";
 import { categoryStorage } from "../../model/storage";
 import "./Setting.css";
-import store, { RootState } from "../../store/store";
+import { RootState } from "../../store/store";
 import { IUserProfile } from "../../model/userProfile/UserProfileModel";
 import {
   addCategory,
@@ -20,7 +20,7 @@ const Setting: FC<Record<string, any>> = () => {
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
-  const user = useSelector((st: RootState) => st.user);
+  const user = useSelector((store: RootState) => store.user);
   const dispatch = useDispatch();
 
   const onDeleteSubcategories = (index: number) => {
@@ -73,7 +73,7 @@ const Setting: FC<Record<string, any>> = () => {
     }
   };
 
-  const categories = useSelector((st: RootState) => st.categories);
+  const categories = useSelector((store: RootState) => store.categories);
 
   const categoryList = categories.map((category) => (
     <li key={category.id} className="category-list__category">

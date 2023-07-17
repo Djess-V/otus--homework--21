@@ -37,7 +37,7 @@ const Header: FC = () => {
     <>
       <div className="header">
         <div className="header__container header-container _container">
-          <Link className="header-container__title" to="/">
+          <Link className="header-container__title" to="/otus--homework--21/">
             Cost management
           </Link>
           <nav className="header-container__nav nav-header">
@@ -45,21 +45,21 @@ const Header: FC = () => {
               <>
                 <Link
                   className={`nav-header__link ${
-                    location.pathname === "/expenses"
+                    location.pathname.includes("/expenses")
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/expenses"
+                  to="/otus--homework--21/expenses"
                 >
                   EXPENSES
                 </Link>
                 <Link
                   className={`nav-header__link ${
-                    location.pathname === "/setting"
+                    location.pathname.includes("/setting")
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/setting"
+                  to="/otus--homework--21/setting"
                 >
                   CATEGORIES
                 </Link>
@@ -69,7 +69,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to={`/reports${query}`}
+                  to={`/otus--homework--21/reports${query}`}
                 >
                   REPORTS
                 </Link>
@@ -77,9 +77,11 @@ const Header: FC = () => {
             )}
             <Link
               className={`nav-header__link ${
-                location.pathname === "/about" ? "nav-header__link_active" : ""
+                location.pathname.includes("/about")
+                  ? "nav-header__link_active"
+                  : ""
               }`}
-              to="/about"
+              to="/otus--homework--21/about"
             >
               ABOUT
             </Link>
@@ -87,21 +89,21 @@ const Header: FC = () => {
               <>
                 <Link
                   className={`nav-header__link ${
-                    location.pathname === "/login"
+                    location.pathname.includes("/login")
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/login"
+                  to="/otus--homework--21/login"
                 >
                   LOG IN
                 </Link>
                 <Link
                   className={`nav-header__link ${
-                    location.pathname === "/signup"
+                    location.pathname.includes("/signup")
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/signup"
+                  to="/otus--homework--21/signup"
                 >
                   SIGN UP
                 </Link>
@@ -110,7 +112,7 @@ const Header: FC = () => {
             {auth && (
               <Link
                 className={`nav-header__link`}
-                to="/"
+                to="/otus--homework--21/"
                 onClick={handleSignOut}
               >
                 SIGN OUT

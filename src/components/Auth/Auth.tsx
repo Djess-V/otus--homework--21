@@ -63,7 +63,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate("/");
+            navigate("/otus--homework--21/");
           }
         })
         .catch((err) => {
@@ -97,7 +97,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate("/");
+            navigate("/otus--homework--21/");
           } else {
             throw new Error(
               "Something went wrong with the profile creation! Try again!",

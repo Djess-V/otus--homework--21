@@ -6,7 +6,6 @@ import { RootState } from "../../store/store";
 import { addZero } from "../../services/serviceFunctions";
 import { expenseStorage } from "../../model/storage";
 import { addExpense } from "../../store/slices/sliceExpenses";
-import { IConvertCategory } from "../../services/convertCategory";
 import "./Expenses.css";
 import { ISubcategory } from "../../model/category/Category";
 

@@ -14,7 +14,7 @@ import ReportPieChart from "../Reports/PieChart/ReportPieChart";
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Header />}>
+      <Route path="/otus--homework--21/" element={<Header />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="login" element={<Auth mode="login" />} />

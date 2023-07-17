@@ -46,17 +46,6 @@ const Reports: FC = () => {
         }),
       );
     }
-    /* 
-    return () => {
-      const now = new Date().getTime();
-
-      dispatch(
-        updateRange({
-          startDate: now,
-          endDate: now,
-        })
-      );
-    }; */
   }, []);
 
   const handleSelect = (selectRange: RangeKeyDict) => {
@@ -76,11 +65,15 @@ const Reports: FC = () => {
         const query = serializeQuery(newRange);
 
         if (location.pathname.includes("/reports/table")) {
-          navigate(`/reports/table${query}`, { replace: true });
+          navigate(`/otus--homework--21/reports/table${query}`, {
+            replace: true,
+          });
         } else if (location.pathname.includes("/reports/chart")) {
-          navigate(`/reports/chart${query}`, { replace: true });
+          navigate(`/otus--homework--21/reports/chart${query}`, {
+            replace: true,
+          });
         } else {
-          navigate(`/reports${query}`, { replace: true });
+          navigate(`/otus--homework--21/reports${query}`, { replace: true });
         }
       }
     });
