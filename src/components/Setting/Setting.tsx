@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Subcategories from "../Subcategories/Subcategories";
 import { createCategory } from "../../model/category/Category";
 import { categoryStorage } from "../../model/storage";
-import "./Setting.css";
 import { RootState } from "../../store/store";
 import { IUserProfile } from "../../model/userProfile/UserProfileModel";
 import {
@@ -14,6 +13,7 @@ import {
   convertCategoryForStore,
   convertSubcategoriesForFirebase,
 } from "../../services/convertCategory";
+import "./Setting.css";
 
 const Setting: FC<Record<string, any>> = () => {
   const [subcategories, setSubcategories] = useState([] as string[]);

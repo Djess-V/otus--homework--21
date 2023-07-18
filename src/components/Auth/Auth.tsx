@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useMemo, useState } from "react";
+import React, { FC, FormEvent, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,11 +11,11 @@ import {
   expenseStorage,
   userProfileStorage,
 } from "../../model/storage";
-import { logIn } from "../../store/slices/sliceAuth";
 import "./Auth.css";
 import { addUser } from "../../store/slices/sliceUser";
 import { addCategories } from "../../store/slices/sliceCategories";
 import { addExpenses } from "../../store/slices/sliceExpenses";
+import pkg from "../../../package.json";
 
 type IMode = "login" | "signup";
 
@@ -23,32 +23,32 @@ interface IProps {
   mode: IMode;
 }
 
+const initialRegData = {
+  name: "",
+  email: "",
+  password: "",
+  passwordRepeat: "",
+};
+
 const Auth: FC<IProps> = ({ mode }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [regData, setRegData] = useState(initialRegData);
   const [error, setError] = useState({ state: false, message: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isRepeatPasswordNotMatch = useMemo(
-    () => password !== passwordRepeat,
-    [password, passwordRepeat],
-  );
+  const isRepeatPasswordNotMatch = regData.password !== regData.passwordRepeat;
 
   const onFormSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (mode === "login") {
-      signInWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, regData.email, regData.password)
         .then(async (userCredential) => {
           const { user } = userCredential;
           localStorage.setItem("@djess-v/cost-management", user.uid);
           const profile = await userProfileStorage.getUserProfile(user.uid);
 
           if (profile) {
-            dispatch(logIn());
             dispatch(addUser({ userId: profile.userId, name: profile.name }));
 
             const categories = await categoryStorage.getAll(profile.userId);
@@ -63,7 +63,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate("/otus--homework--21/");
+            navigate(`/${pkg.name}/`);
           }
         })
         .catch((err) => {
@@ -73,15 +73,14 @@ const Auth: FC<IProps> = ({ mode }) => {
           });
         });
     } else {
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, regData.email, regData.password)
         .then(async (userCredential) => {
           const { user } = userCredential;
           localStorage.setItem("@djess-v/cost-management", user.uid);
-          dispatch(logIn());
-          dispatch(addUser({ userId: user.uid, name }));
+          dispatch(addUser({ userId: user.uid, name: regData.name }));
           const userId = await userProfileStorage.createUserProfile(
             user.uid,
-            name,
+            regData.name,
           );
 
           if (userId) {
@@ -97,7 +96,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate("/otus--homework--21/");
+            navigate(`/${pkg.name}/`);
           } else {
             throw new Error(
               "Something went wrong with the profile creation! Try again!",
@@ -114,10 +113,7 @@ const Auth: FC<IProps> = ({ mode }) => {
   };
 
   const clearForm = () => {
-    setName("");
-    setEmail("");
-    setPassword("");
-    setPasswordRepeat("");
+    setRegData({ ...initialRegData });
     setError({ state: false, message: "" });
   };
 
@@ -139,8 +135,10 @@ const Auth: FC<IProps> = ({ mode }) => {
               </label>
               <input
                 className="auth__form_input _input"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                onChange={(e) =>
+                  setRegData({ ...regData, name: e.target.value })
+                }
+                value={regData.name}
                 name="name"
                 id="name"
                 minLength={3}
@@ -154,8 +152,8 @@ const Auth: FC<IProps> = ({ mode }) => {
           <input
             className="auth__form_input _input"
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={(e) => setRegData({ ...regData, email: e.target.value })}
+            value={regData.email}
             name="email"
             id="email"
             minLength={3}
@@ -167,8 +165,10 @@ const Auth: FC<IProps> = ({ mode }) => {
           <input
             className="auth__form_input _input"
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={(e) =>
+              setRegData({ ...regData, password: e.target.value })
+            }
+            value={regData.password}
             name="password"
             id="password"
             minLength={6}
@@ -183,18 +183,19 @@ const Auth: FC<IProps> = ({ mode }) => {
               <input
                 className="auth__form_input _input"
                 type="password"
-                onChange={(e) => setPasswordRepeat(e.target.value)}
-                value={passwordRepeat}
+                onChange={(e) =>
+                  setRegData({ ...regData, passwordRepeat: e.target.value })
+                }
+                value={regData.passwordRepeat}
                 name="repeatPassword"
                 id="repeat-password"
                 minLength={6}
                 required
               />
+              {isRepeatPasswordNotMatch && (
+                <p className="auth__form_error">Passwords do not match</p>
+              )}
             </>
-          )}
-
-          {mode === "signup" && isRepeatPasswordNotMatch && (
-            <p className="auth__form_error">Passwords do not match</p>
           )}
 
           {error.state && <p className="auth__form_error">{error.message}</p>}

@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { RootState } from "../../store/store";
-import { logOut } from "../../store/slices/sliceAuth";
 import { deleteUser } from "../../store/slices/sliceUser";
 import { serializeQuery } from "../../services/serviceFunctions";
 import { updateRange } from "../../store/slices/sliceRange";
@@ -10,18 +9,17 @@ import { deleteCategories } from "../../store/slices/sliceCategories";
 import { deleteExpenses } from "../../store/slices/sliceExpenses";
 import "./Header.css";
 
+const now = new Date().getTime();
+
 const Header: FC = () => {
   const location = useLocation();
-  const auth = useSelector((store: RootState) => store.auth);
+  const user = useSelector((store: RootState) => store.user);
   const range = useSelector((store: RootState) => store.range);
   const dispatch = useDispatch();
 
   const query = serializeQuery(range);
 
   const handleSignOut = () => {
-    const now = new Date().getTime();
-
-    dispatch(logOut());
     dispatch(deleteUser());
     dispatch(
       updateRange({
@@ -37,11 +35,11 @@ const Header: FC = () => {
     <>
       <div className="header">
         <div className="header__container header-container _container">
-          <Link className="header-container__title" to="/otus--homework--21/">
+          <Link className="header-container__title" to="/">
             Cost management
           </Link>
           <nav className="header-container__nav nav-header">
-            {auth && (
+            {user.userId && (
               <>
                 <Link
                   className={`nav-header__link ${
@@ -49,7 +47,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/otus--homework--21/expenses"
+                  to="/expenses"
                 >
                   EXPENSES
                 </Link>
@@ -59,7 +57,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/otus--homework--21/setting"
+                  to="/setting"
                 >
                   CATEGORIES
                 </Link>
@@ -69,7 +67,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to={`/otus--homework--21/reports${query}`}
+                  to={`/reports${query}`}
                 >
                   REPORTS
                 </Link>
@@ -81,11 +79,11 @@ const Header: FC = () => {
                   ? "nav-header__link_active"
                   : ""
               }`}
-              to="/otus--homework--21/about"
+              to="/about"
             >
               ABOUT
             </Link>
-            {!auth && (
+            {!user.userId && (
               <>
                 <Link
                   className={`nav-header__link ${
@@ -93,7 +91,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/otus--homework--21/login"
+                  to="/login"
                 >
                   LOG IN
                 </Link>
@@ -103,16 +101,16 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/otus--homework--21/signup"
+                  to="/signup"
                 >
                   SIGN UP
                 </Link>
               </>
             )}
-            {auth && (
+            {user.userId && (
               <Link
                 className={`nav-header__link`}
-                to="/otus--homework--21/"
+                to="/"
                 onClick={handleSignOut}
               >
                 SIGN OUT

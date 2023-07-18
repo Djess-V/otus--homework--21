@@ -1,9 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import App from "./components/App/App";
+import App from "./App";
 import store from "./store/store";
-import { logIn } from "./store/slices/sliceAuth";
 import {
   categoryStorage,
   expenseStorage,
@@ -29,7 +28,6 @@ window.addEventListener("load", async () => {
       const profile = await userProfileStorage.getUserProfile(userId);
 
       if (profile) {
-        store.dispatch(logIn());
         store.dispatch(addUser({ userId: profile.userId, name: profile.name }));
       } else {
         throw new Error(

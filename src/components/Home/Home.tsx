@@ -9,7 +9,7 @@ const Home: FC = () => {
   return (
     <div className="_container">
       <div className="home">
-        <h2>{`Welcome${"name" in user ? `, ${user.name}` : ""}!`}</h2>
+        <h2>{`Welcome${user.name ? `, ${user.name}` : ""}!`}</h2>
         <h3>Use the links at the top of the app for further work.</h3>
       </div>
     </div>
