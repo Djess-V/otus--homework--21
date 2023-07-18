@@ -35,7 +35,7 @@ const Header: FC = () => {
     <>
       <div className="header">
         <div className="header__container header-container _container">
-          <Link className="header-container__title" to={`${PREFIX}/about`}>
+          <Link className="header-container__title" to={`${PREFIX}/`}>
             Cost management
           </Link>
           <nav className="header-container__nav nav-header">

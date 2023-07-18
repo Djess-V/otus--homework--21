@@ -2,7 +2,7 @@ import React, { FC, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Subcategories from "../Subcategories/Subcategories";
 import { createCategory } from "../../model/category/Category";
-import { categoryStorage } from "../../model/storage";
+import { categoryStorage, expenseStorage } from "../../model/storage";
 import { RootState } from "../../store/store";
 import { IUserProfile } from "../../model/userProfile/UserProfileModel";
 import {
@@ -14,6 +14,7 @@ import {
   convertSubcategoriesForFirebase,
 } from "../../services/convertCategory";
 import "./Setting.css";
+import { deleteExpensesOfDeletedCategory } from "../../store/slices/sliceExpenses";
 
 const Setting: FC<Record<string, any>> = () => {
   const [subcategories, setSubcategories] = useState([] as string[]);
@@ -21,6 +22,7 @@ const Setting: FC<Record<string, any>> = () => {
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const user = useSelector((store: RootState) => store.user);
+  const expenses = useSelector((store: RootState) => store.expenses);
   const dispatch = useDispatch();
 
   const onDeleteSubcategories = (index: number) => {
@@ -65,10 +67,24 @@ const Setting: FC<Record<string, any>> = () => {
 
   const onClickDeleteButton = async (categoryId: string) => {
     if (user.userId) {
+      const expensesIds = expenses
+        .filter((expense) => expense.categoryId === categoryId)
+        .map((item) => item.id);
+
       const deleted = await categoryStorage.delete(user.userId, categoryId);
 
       if (deleted) {
         dispatch(deleteCategory(categoryId));
+      }
+
+      const expensesDeleted =
+        await expenseStorage.deleteExpensesOfDeletedCategory(
+          user.userId,
+          expensesIds,
+        );
+
+      if (expensesDeleted) {
+        dispatch(deleteExpensesOfDeletedCategory(categoryId));
       }
     }
   };

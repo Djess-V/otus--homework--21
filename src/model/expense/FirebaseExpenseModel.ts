@@ -1,4 +1,4 @@
-import { Database, ref, set, get, child } from "firebase/database";
+import { Database, ref, set, get, child, remove } from "firebase/database";
 import ExpenseModel from "./ExpenseModel";
 import { IExpense } from "./Expense";
 import { convertExpensesForStore } from "../../services/convertExpense";
@@ -56,6 +56,28 @@ class FirebaseExpenseModel extends ExpenseModel {
       return expense.id;
     } catch (e) {
       return null;
+    }
+  }
+
+  async deleteExpensesOfDeletedCategory(
+    userId: string,
+    expenseIds: string[],
+  ): Promise<boolean> {
+    try {
+      for (const id of expenseIds) {
+        await remove(
+          ref(
+            this.db,
+            `${
+              this.parentCollectionName
+            }${userId}${`${this.collectionName}/`}${id}`,
+          ),
+        );
+      }
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }
