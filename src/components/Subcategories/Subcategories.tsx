@@ -40,18 +40,20 @@ const Subcategories = ({
         placeholder={placeholder}
         name={name}
         id={name}
+        data-testid="subcategories"
       />
       <ul className="subcategories__list list-subcategories">
         {value.map((el, index) => (
           <li
             key={index}
             className="list-subcategories__item"
-            data-testid="value"
+            data-testid="subcategory-value"
           >
             <span className="list-subcategories__item_title">{el}</span>
             <span
               className="list-subcategories__item_close"
               onClick={() => onDeleteValue(index)}
+              data-testid={`subcategory-${index}`}
             >
               x
             </span>

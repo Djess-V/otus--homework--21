@@ -142,6 +142,7 @@ const Auth: FC<IProps> = ({ mode }) => {
                 id="name"
                 minLength={3}
                 required
+                data-testid="name"
               />
             </>
           )}
@@ -157,6 +158,7 @@ const Auth: FC<IProps> = ({ mode }) => {
             id="email"
             minLength={3}
             required
+            data-testid="email"
           />
           <label className="auth__form_label" htmlFor="password">
             Password:
@@ -172,6 +174,7 @@ const Auth: FC<IProps> = ({ mode }) => {
             id="password"
             minLength={6}
             required
+            data-testid="password"
           />
 
           {mode === "signup" && (
@@ -190,6 +193,7 @@ const Auth: FC<IProps> = ({ mode }) => {
                 id="repeat-password"
                 minLength={6}
                 required
+                data-testid="repeatPassword"
               />
               {isRepeatPasswordNotMatch && (
                 <p className="auth__form_error">Passwords do not match</p>

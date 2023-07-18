@@ -91,17 +91,26 @@ const Setting: FC<Record<string, any>> = () => {
 
   const categories = useSelector((store: RootState) => store.categories);
 
-  const categoryList = categories.map((category) => (
-    <li key={category.id} className="category-list__category">
+  const categoryList = categories.map((category, index) => (
+    <li
+      key={category.id}
+      className="category-list__category"
+      data-testid="newCategory"
+    >
       {category.name}{" "}
       <button
         className="category-list__category_delete-button"
         onClick={() => onClickDeleteButton(category.id)}
+        data-testid={`deleteCategory-${index}`}
       ></button>
       {!!category.subcategories.length && (
         <ul>
           {category.subcategories.map((subcategory) => (
-            <li key={subcategory.id} className="category-list__subcategory">
+            <li
+              key={subcategory.id}
+              className="category-list__subcategory"
+              data-testid="newSubcategory"
+            >
               {subcategory.name}
             </li>
           ))}
@@ -131,6 +140,7 @@ const Setting: FC<Record<string, any>> = () => {
             id="category"
             minLength={3}
             required
+            data-testid="category"
           />
           <label className="category__form_label" htmlFor="subcategories">
             Subcategory:
@@ -151,6 +161,7 @@ const Setting: FC<Record<string, any>> = () => {
             value={description}
             name="description"
             id="description"
+            data-testid="description"
           />
           {message && <p className="category__form_message">{message}</p>}
           <div className="form-category__buttons">

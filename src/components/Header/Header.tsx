@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { deleteUser } from "../../store/slices/sliceUser";
 import { serializeQuery } from "../../services/serviceFunctions";

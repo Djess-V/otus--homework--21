@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux/es/exports";
+import { useSelector } from "react-redux";
 import "./Home.css";
 import { RootState } from "../../store/store";
 
