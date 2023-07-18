@@ -15,7 +15,6 @@ import "./Auth.css";
 import { addUser } from "../../store/slices/sliceUser";
 import { addCategories } from "../../store/slices/sliceCategories";
 import { addExpenses } from "../../store/slices/sliceExpenses";
-import pkg from "../../../package.json";
 
 type IMode = "login" | "signup";
 
@@ -63,7 +62,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate(`/${pkg.name}/`);
+            navigate(`${PREFIX}/`);
           }
         })
         .catch((err) => {
@@ -96,7 +95,7 @@ const Auth: FC<IProps> = ({ mode }) => {
               dispatch(addExpenses(expenses));
             }
 
-            navigate(`/${pkg.name}/`);
+            navigate(`${PREFIX}/`);
           } else {
             throw new Error(
               "Something went wrong with the profile creation! Try again!",

@@ -65,15 +65,15 @@ const Reports: FC = () => {
         const query = serializeQuery(newRange);
 
         if (location.pathname.includes("/reports/table")) {
-          navigate(`/otus--homework--21/reports/table${query}`, {
+          navigate(`${PREFIX}/reports/table${query}`, {
             replace: true,
           });
         } else if (location.pathname.includes("/reports/chart")) {
-          navigate(`/otus--homework--21/reports/chart${query}`, {
+          navigate(`${PREFIX}/reports/chart${query}`, {
             replace: true,
           });
         } else {
-          navigate(`/otus--homework--21/reports${query}`, { replace: true });
+          navigate(`${PREFIX}/reports${query}`, { replace: true });
         }
       }
     });

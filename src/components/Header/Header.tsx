@@ -35,7 +35,7 @@ const Header: FC = () => {
     <>
       <div className="header">
         <div className="header__container header-container _container">
-          <Link className="header-container__title" to="/">
+          <Link className="header-container__title" to={`${PREFIX}/about`}>
             Cost management
           </Link>
           <nav className="header-container__nav nav-header">
@@ -47,7 +47,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/expenses"
+                  to={`${PREFIX}/expenses`}
                 >
                   EXPENSES
                 </Link>
@@ -57,7 +57,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/setting"
+                  to={`${PREFIX}/setting`}
                 >
                   CATEGORIES
                 </Link>
@@ -67,7 +67,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to={`/reports${query}`}
+                  to={`${PREFIX}/reports${query}`}
                 >
                   REPORTS
                 </Link>
@@ -79,7 +79,7 @@ const Header: FC = () => {
                   ? "nav-header__link_active"
                   : ""
               }`}
-              to="/about"
+              to={`${PREFIX}/about`}
             >
               ABOUT
             </Link>
@@ -91,7 +91,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/login"
+                  to={`${PREFIX}/login`}
                 >
                   LOG IN
                 </Link>
@@ -101,7 +101,7 @@ const Header: FC = () => {
                       ? "nav-header__link_active"
                       : ""
                   }`}
-                  to="/signup"
+                  to={`${PREFIX}/signup`}
                 >
                   SIGN UP
                 </Link>
@@ -110,7 +110,7 @@ const Header: FC = () => {
             {user.userId && (
               <Link
                 className={`nav-header__link`}
-                to="/"
+                to={`${PREFIX}/`}
                 onClick={handleSignOut}
               >
                 SIGN OUT
