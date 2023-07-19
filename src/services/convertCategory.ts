@@ -28,9 +28,11 @@ const convertSubcategoriesForStore = (
 ) => {
   const result: ISubcategory[] = [];
 
-  Object.keys(subcategories).forEach((item) => {
-    result.push(subcategories[item]);
-  });
+  if (subcategories) {
+    Object.keys(subcategories).forEach((item) => {
+      result.push(subcategories[item]);
+    });
+  }
 
   return result;
 };
@@ -52,9 +54,11 @@ export const convertCategoriesForStore = (
 ) => {
   const result: IConvertCategory[] = [];
 
-  Object.keys(categories).forEach((item) => {
-    result.push(convertCategoryForStore(categories[item]));
-  });
+  if (categories) {
+    Object.keys(categories).forEach((item) => {
+      result.push(convertCategoryForStore(categories[item]));
+    });
+  }
 
   return result;
 };
