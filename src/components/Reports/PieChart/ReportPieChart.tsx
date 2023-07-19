@@ -5,26 +5,23 @@ import { RootState } from "../../../store/store";
 import { prepareDataForReport } from "../../../services/prepareDataForReport";
 import "./ReportPieChart.css";
 
+const header = ["Category", "Amount"];
+
 const ReportPieChart: FC = () => {
   const expenses = useSelector((store: RootState) => store.expenses);
   const categories = useSelector((store: RootState) => store.categories);
   const range = useSelector((store: RootState) => store.range);
 
-  const aggrPieChartData = () => {
-    const header = ["Category", "Amount"];
-    const data = [
-      header,
-      ...prepareDataForReport("chart", expenses, range, categories),
-    ];
-
-    return data;
-  };
+  const pieChartData = [
+    header,
+    ...prepareDataForReport("chart", expenses, range, categories),
+  ];
 
   return (
     <Chart
       className="report__pie-chart"
       chartType="PieChart"
-      data={aggrPieChartData()}
+      data={pieChartData}
       options={{
         title: "Costs by category",
       }}

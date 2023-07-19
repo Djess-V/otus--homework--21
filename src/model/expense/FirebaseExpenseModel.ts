@@ -1,7 +1,17 @@
 import { Database, ref, set, get, child, remove } from "firebase/database";
-import ExpenseModel from "./ExpenseModel";
 import { IExpense } from "./Expense";
 import { convertExpensesForStore } from "../../services/convertExpense";
+
+abstract class ExpenseModel {
+  abstract getAll(userId: string): Promise<IExpense[] | null>;
+
+  abstract create(userId: string, expense: IExpense): Promise<string | null>;
+
+  abstract deleteExpensesOfDeletedCategory(
+    userId: string,
+    expenseIds: string[],
+  ): Promise<boolean>;
+}
 
 class FirebaseExpenseModel extends ExpenseModel {
   private db;

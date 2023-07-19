@@ -17,9 +17,6 @@ const expensesSlice = createSlice({
       return state;
     },
 
-    deleteExpense: (state, action: PayloadAction<string>) =>
-      state.filter((item) => item.id !== action.payload),
-
     deleteExpensesOfDeletedCategory: (state, action: PayloadAction<string>) =>
       state.filter((item) => item.categoryId !== action.payload),
 
@@ -33,7 +30,6 @@ const expensesSlice = createSlice({
 export const {
   addExpenses,
   addExpense,
-  deleteExpense,
   deleteExpensesOfDeletedCategory,
   deleteExpenses,
 } = expensesSlice.actions;

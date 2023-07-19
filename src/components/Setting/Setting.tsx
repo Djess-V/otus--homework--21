@@ -4,7 +4,7 @@ import Subcategories from "../Subcategories/Subcategories";
 import { createCategory } from "../../model/category/Category";
 import { categoryStorage, expenseStorage } from "../../model/storage";
 import { RootState } from "../../store/store";
-import { IUserProfile } from "../../model/userProfile/UserProfileModel";
+import { IUserProfile } from "../../model/userProfile/FirebaseUserProfileModel";
 import {
   addCategory,
   deleteCategory,

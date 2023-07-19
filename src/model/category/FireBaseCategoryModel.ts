@@ -1,10 +1,17 @@
 import { Database, ref, set, get, child, remove } from "firebase/database";
 import { ICategory } from "./Category";
-import CategoryModel from "./CategoryModel";
 import {
   IConvertCategory,
   convertCategoriesForStore,
 } from "../../services/convertCategory";
+
+abstract class CategoryModel {
+  abstract getAll(userId: string): Promise<IConvertCategory[] | null>;
+
+  abstract create(userId: string, category: ICategory): Promise<string | null>;
+
+  abstract delete(userId: string, id: string): Promise<boolean>;
+}
 
 class FirebaseCategoryModel extends CategoryModel {
   private db;

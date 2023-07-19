@@ -28,11 +28,9 @@ const convertSubcategoriesForStore = (
 ) => {
   const result: ISubcategory[] = [];
 
-  if (subcategories) {
-    Object.keys(subcategories).forEach((item) => {
-      result.push(subcategories[item]);
-    });
-  }
+  Object.keys(subcategories).forEach((item) => {
+    result.push(subcategories[item]);
+  });
 
   return result;
 };

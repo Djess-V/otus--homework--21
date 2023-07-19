@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 import userEvent from "@testing-library/user-event";
 import Header from "./Header";
 import store from "../../store/store";
-import { addUser, deleteUser } from "../../store/slices/sliceUser";
+import { addUser } from "../../store/slices/sliceUser";
 
 describe("Header", () => {
   it("renders component with correct links for authorized users and unauthorized users", async () => {

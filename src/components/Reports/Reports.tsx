@@ -10,7 +10,7 @@ import {
 } from "../../services/serviceFunctions";
 import { updateRange } from "../../store/slices/sliceRange";
 import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default";
+import "react-date-range/dist/theme/default.css";
 import "./Reports.css";
 
 const Reports: FC = () => {

@@ -1,5 +1,18 @@
 import { Database, ref, get, child, set } from "firebase/database";
-import UserProfileModel, { IUserProfile } from "./UserProfileModel";
+
+export type IUserProfile = {
+  userId: string;
+  name: string;
+};
+
+abstract class UserProfileModel {
+  abstract getUserProfile(userId: string): Promise<IUserProfile | null>;
+
+  abstract createUserProfile(
+    userId: string,
+    name: string,
+  ): Promise<string | null>;
+}
 
 class FirebaseUserProfileModel extends UserProfileModel {
   private db;

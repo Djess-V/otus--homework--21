@@ -5,26 +5,23 @@ import { RootState } from "../../../store/store";
 import { prepareDataForReport } from "../../../services/prepareDataForReport";
 import "./ReportTable.css";
 
+const header = ["Category", "Subcategory", "Amount"];
+
 const ReportTable: FC = () => {
   const expenses = useSelector((store: RootState) => store.expenses);
   const categories = useSelector((store: RootState) => store.categories);
   const range = useSelector((store: RootState) => store.range);
 
-  const aggrTableData = () => {
-    const header = ["Category", "Subcategory", "Amount"];
-    const data = [
-      header,
-      ...prepareDataForReport("table", expenses, range, categories),
-    ];
-
-    return data;
-  };
+  const tableData = [
+    header,
+    ...prepareDataForReport("table", expenses, range, categories),
+  ];
 
   return (
     <Chart
       chartType="Table"
       width="100%"
-      data={aggrTableData()}
+      data={tableData}
       options={{
         allowHtml: true,
         showRowNumber: true,

@@ -155,6 +155,7 @@ const Expenses: FC = () => {
             min="0"
             step="0.01"
             required
+            data-testid="amount"
           />
           <p className="expenses__form_message">{message}</p>
           <div className="form-expenses__buttons">
@@ -169,7 +170,7 @@ const Expenses: FC = () => {
               className="form-expenses__buttons_button _button"
               type="submit"
             >
-              Add cost
+              Add expense
             </button>
           </div>
         </form>

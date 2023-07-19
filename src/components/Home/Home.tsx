@@ -5,7 +5,6 @@ import { RootState } from "../../store/store";
 
 const Home: FC = () => {
   const user = useSelector((store: RootState) => store.user);
-
   return (
     <div className="_container">
       <div className="home">

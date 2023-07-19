@@ -56,6 +56,7 @@ module.exports = {
     "default-param-last": "off",
     "class-methods-use-this": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],
+    "max-classes-per-file": ["error", { ignoreExpressions: true, max: 2 }],
   },
   settings: {
     react: {
@@ -63,7 +64,7 @@ module.exports = {
     },
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".d.ts"],
+        extensions: [".js", ".ts", ".jsx", ".tsx", "*.css", ".d.ts"],
       },
     },
   },
