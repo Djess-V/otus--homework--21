@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import {
   auth,
   categoryStorage,
@@ -15,19 +15,97 @@ import "./Auth.css";
 import { addUser } from "../../store/slices/sliceUser";
 import { addCategories } from "../../store/slices/sliceCategories";
 import { addExpenses } from "../../store/slices/sliceExpenses";
+import { IUserProfile } from "../../model/userProfile/FirebaseUserProfileModel";
+import { AppDispatch } from "../../store/store";
 
 type IMode = "login" | "signup";
+
+interface IRegData {
+  name: string;
+  email: string;
+  password: string;
+  passwordRepeat: string;
+}
 
 interface IProps {
   mode: IMode;
 }
 
-const initialRegData = {
+const initialRegData: IRegData = {
   name: "",
   email: "",
   password: "",
   passwordRepeat: "",
 };
+
+const supportObj = {
+  login: signInWithEmailAndPassword,
+  signup: createUserWithEmailAndPassword,
+};
+
+function saveIDToLocalStorage(id: string) {
+  localStorage.setItem("@djess-v/cost-management", id);
+}
+
+async function getInitialDataForStore(id: string, dispatch: AppDispatch) {
+  const categories = await categoryStorage.getAll(id);
+
+  if (categories) {
+    dispatch(addCategories(categories));
+  }
+
+  const expenses = await expenseStorage.getAll(id);
+
+  if (expenses) {
+    dispatch(addExpenses(expenses));
+  }
+}
+
+async function authentication(
+  mode: IMode,
+  regData: IRegData,
+  errorCb: React.Dispatch<
+    React.SetStateAction<{
+      state: boolean;
+      message: string;
+    }>
+  >,
+  dispatch: AppDispatch,
+  navigate: NavigateFunction,
+) {
+  try {
+    let profile: IUserProfile | null = null;
+
+    const { user } = await supportObj[mode](
+      auth,
+      regData.email,
+      regData.password,
+    );
+
+    if (mode === "login") {
+      profile = await userProfileStorage.getUserProfile(user.uid);
+    } else {
+      profile = await userProfileStorage.createUserProfile(
+        user.uid,
+        regData.name,
+      );
+    }
+
+    if (profile) {
+      saveIDToLocalStorage(profile.userId);
+      dispatch(addUser(profile));
+
+      getInitialDataForStore(profile.userId, dispatch);
+    }
+
+    navigate(`${PREFIX}/`);
+  } catch (error) {
+    errorCb({
+      state: true,
+      message: (error as unknown as Error).message,
+    });
+  }
+}
 
 const Auth: FC<IProps> = ({ mode }) => {
   const [regData, setRegData] = useState(initialRegData);
@@ -37,78 +115,9 @@ const Auth: FC<IProps> = ({ mode }) => {
 
   const isRepeatPasswordNotMatch = regData.password !== regData.passwordRepeat;
 
-  const onFormSubmit = (event: FormEvent) => {
+  const onFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
-    if (mode === "login") {
-      signInWithEmailAndPassword(auth, regData.email, regData.password)
-        .then(async (userCredential) => {
-          const { user } = userCredential;
-          localStorage.setItem("@djess-v/cost-management", user.uid);
-          const profile = await userProfileStorage.getUserProfile(user.uid);
-
-          if (profile) {
-            dispatch(addUser({ userId: profile.userId, name: profile.name }));
-
-            const categories = await categoryStorage.getAll(profile.userId);
-
-            if (categories) {
-              dispatch(addCategories(categories));
-            }
-
-            const expenses = await expenseStorage.getAll(profile.userId);
-
-            if (expenses) {
-              dispatch(addExpenses(expenses));
-            }
-
-            navigate(`${PREFIX}/`);
-          }
-        })
-        .catch((err) => {
-          setError({
-            state: true,
-            message: "No user with this data was found! Register!",
-          });
-        });
-    } else {
-      createUserWithEmailAndPassword(auth, regData.email, regData.password)
-        .then(async (userCredential) => {
-          const { user } = userCredential;
-          localStorage.setItem("@djess-v/cost-management", user.uid);
-          dispatch(addUser({ userId: user.uid, name: regData.name }));
-          const userId = await userProfileStorage.createUserProfile(
-            user.uid,
-            regData.name,
-          );
-
-          if (userId) {
-            const categories = await categoryStorage.getAll(userId);
-
-            if (categories) {
-              dispatch(addCategories(categories));
-            }
-
-            const expenses = await expenseStorage.getAll(userId);
-
-            if (expenses) {
-              dispatch(addExpenses(expenses));
-            }
-
-            navigate(`${PREFIX}/`);
-          } else {
-            throw new Error(
-              "Something went wrong with the profile creation! Try again!",
-            );
-          }
-        })
-        .catch((err: Error) => {
-          setError({
-            state: true,
-            message: err.message,
-          });
-        });
-    }
+    await authentication(mode, regData, setError, dispatch, navigate);
   };
 
   const clearForm = () => {
@@ -196,7 +205,9 @@ const Auth: FC<IProps> = ({ mode }) => {
                 data-testid="repeatPassword"
               />
               {isRepeatPasswordNotMatch && (
-                <p className="auth__form_error">Passwords do not match</p>
+                <p className="auth__form_error" data-testid="error">
+                  Passwords do not match
+                </p>
               )}
             </>
           )}

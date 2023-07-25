@@ -1,7 +1,7 @@
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Auth from "./Auth";
@@ -33,79 +33,69 @@ jest.mock("firebase/database", () => {
     child: jest.fn(() => true),
     get: jest
       .fn()
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          exists: () => true,
-          val: () => ({
-            foo: {
-              id: "string",
-              name: "string",
-              subcategories: {
-                baz: {
-                  id: "string",
-                  name: "string",
-                },
-              },
-              description: "string",
-            },
-          }),
-        }),
-      )
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          exists: () => true,
-          val: () => ({
-            foo: {
-              id: "string",
-              date: 145627892,
-              categoryId: "string",
-              subcategoryId: "string",
-              amount: 1000,
-            },
-          }),
-        }),
-      )
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          exists: () => true,
-          val: () => ({
-            userId: "string",
+      .mockResolvedValueOnce({
+        exists: () => true,
+        val: () => ({
+          foo: {
+            id: "string",
             name: "string",
-          }),
-        }),
-      )
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          exists: () => true,
-          val: () => ({
-            foo: {
-              id: "string",
-              name: "string",
-              subcategories: {
-                baz: {
-                  id: "string",
-                  name: "string",
-                },
+            subcategories: {
+              baz: {
+                id: "string",
+                name: "string",
               },
-              description: "string",
             },
-          }),
+            description: "string",
+          },
         }),
-      )
-      .mockImplementationOnce(() =>
-        Promise.resolve({
-          exists: () => true,
-          val: () => ({
-            foo: {
-              id: "string",
-              date: 145627892,
-              categoryId: "string",
-              subcategoryId: "string",
-              amount: 1000,
+      })
+      .mockResolvedValueOnce({
+        exists: () => true,
+        val: () => ({
+          foo: {
+            id: "string",
+            date: 145627892,
+            categoryId: "string",
+            subcategoryId: "string",
+            amount: 1000,
+          },
+        }),
+      })
+      .mockResolvedValueOnce({
+        exists: () => true,
+        val: () => ({
+          userId: "string",
+          name: "string",
+        }),
+      })
+      .mockResolvedValueOnce({
+        exists: () => true,
+        val: () => ({
+          foo: {
+            id: "string",
+            name: "string",
+            subcategories: {
+              baz: {
+                id: "string",
+                name: "string",
+              },
             },
-          }),
+            description: "string",
+          },
         }),
-      ),
+      })
+      .mockResolvedValueOnce({
+        exists: () => true,
+        val: () => ({
+          foo: {
+            id: "string",
+            date: 145627892,
+            categoryId: "string",
+            subcategoryId: "string",
+            amount: 1000,
+          },
+        }),
+      }),
   };
 });
 
@@ -119,21 +109,13 @@ describe("Auth without errors", () => {
       </MemoryRouter>,
     );
 
-    fireEvent.change(screen.getByTestId("name"), {
-      target: { value: "Евгений" },
-    });
+    await userEvent.type(screen.getByTestId("name"), "Евгений");
 
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "Hello@yandex.ru" },
-    });
+    await userEvent.type(screen.getByTestId("email"), "Hello@yandex.ru");
 
-    fireEvent.change(screen.getByTestId("password"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("password"), "World!");
 
-    fireEvent.change(screen.getByTestId("repeatPassword"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("repeatPassword"), "World!");
 
     await userEvent.click(screen.getByText("Create"));
 
@@ -154,13 +136,9 @@ describe("Auth without errors", () => {
 
     expect(screen.getByText("Log In")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "Hello@yandex.ru" },
-    });
+    await userEvent.type(screen.getByTestId("email"), "Hello@yandex.ru");
 
-    fireEvent.change(screen.getByTestId("password"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("password"), "World!");
 
     await userEvent.click(screen.getByText("Log in"));
 

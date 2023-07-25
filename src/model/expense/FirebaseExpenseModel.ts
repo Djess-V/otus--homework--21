@@ -65,6 +65,7 @@ class FirebaseExpenseModel extends ExpenseModel {
 
       return expense.id;
     } catch (e) {
+      console.log((e as Error).message);
       return null;
     }
   }
@@ -87,6 +88,7 @@ class FirebaseExpenseModel extends ExpenseModel {
 
       return true;
     } catch (e) {
+      console.log((e as Error).message);
       return false;
     }
   }

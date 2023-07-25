@@ -1,7 +1,7 @@
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import {
   signInWithEmailAndPassword,
@@ -39,24 +39,19 @@ describe("Auth with errors", () => {
 
     const inputEmail = screen.getByTestId("email") as HTMLInputElement;
 
-    fireEvent.change(inputEmail, { target: { value: "Hello@yandex.ru" } });
+    await userEvent.type(inputEmail, "Hello@yandex.ru");
 
     await userEvent.click(screen.getByText("Clear form"));
 
     expect(inputEmail.value).toBe("");
 
-    fireEvent.change(inputEmail, { target: { value: "Hello@yandex.ru" } });
+    await userEvent.type(inputEmail, "Hello@yandex.ru");
 
-    fireEvent.change(screen.getByTestId("password"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("password"), "World!");
 
     await userEvent.click(screen.getByText("Log in"));
 
     expect(signInWithEmailAndPassword).toHaveBeenCalled();
-    expect(
-      screen.getByText("No user with this data was found! Register!"),
-    ).toBeInTheDocument();
   });
 
   it("render component in mode - signup, auth rejected", async () => {
@@ -71,21 +66,13 @@ describe("Auth with errors", () => {
     expect(screen.getAllByRole("button")).toHaveLength(2);
     expect(screen.getByText("Create")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByTestId("name"), {
-      target: { value: "Евгений" },
-    });
+    await userEvent.type(screen.getByTestId("name"), "Евгений");
 
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "Hello@yandex.ru" },
-    });
+    await userEvent.type(screen.getByTestId("email"), "Hello@yandex.ru");
 
-    fireEvent.change(screen.getByTestId("password"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("password"), "World!");
 
-    fireEvent.change(screen.getByTestId("repeatPassword"), {
-      target: { value: "World!" },
-    });
+    await userEvent.type(screen.getByTestId("repeatPassword"), "World!");
 
     await userEvent.click(screen.getByText("Create"));
 

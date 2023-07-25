@@ -22,7 +22,7 @@ jest.mock("firebase/database", () => {
 });
 
 describe("Expenses", () => {
-  it("render component", async () => {
+  it("checking that the form for adding expenses works correctly", async () => {
     store.dispatch(addUser({ userId: v4(), name: "Евгений" }));
     store.dispatch(
       addCategories([

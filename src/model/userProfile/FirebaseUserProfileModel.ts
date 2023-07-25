@@ -11,7 +11,7 @@ abstract class UserProfileModel {
   abstract createUserProfile(
     userId: string,
     name: string,
-  ): Promise<string | null>;
+  ): Promise<IUserProfile | null>;
 }
 
 class FirebaseUserProfileModel extends UserProfileModel {
@@ -55,7 +55,7 @@ class FirebaseUserProfileModel extends UserProfileModel {
   async createUserProfile(
     userId: string,
     name: string,
-  ): Promise<string | null> {
+  ): Promise<IUserProfile | null> {
     try {
       await set(
         ref(
@@ -68,8 +68,12 @@ class FirebaseUserProfileModel extends UserProfileModel {
         },
       );
 
-      return userId;
+      return {
+        userId,
+        name,
+      };
     } catch (e) {
+      console.log((e as Error).message);
       return null;
     }
   }

@@ -65,6 +65,7 @@ class FirebaseCategoryModel extends CategoryModel {
 
       return category.id;
     } catch (e) {
+      console.log((e as Error).message);
       return null;
     }
   }
@@ -82,6 +83,7 @@ class FirebaseCategoryModel extends CategoryModel {
 
       return true;
     } catch (e) {
+      console.log((e as Error).message);
       return false;
     }
   }

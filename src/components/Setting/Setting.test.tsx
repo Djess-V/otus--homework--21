@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 import userEvent from "@testing-library/user-event";
 import Setting from "./Setting";
 import store from "../../store/store";
-import { addUser, deleteUser } from "../../store/slices/sliceUser";
+import { addUser } from "../../store/slices/sliceUser";
 import { addExpenses } from "../../store/slices/sliceExpenses";
 
 jest.mock("firebase/database", () => {
@@ -49,19 +49,19 @@ describe("Setting", () => {
 
     const inputCategory = screen.getByTestId("category") as HTMLInputElement;
 
-    fireEvent.change(inputCategory, { target: { value: "Машина" } });
+    await userEvent.type(inputCategory, "Машина");
 
     await userEvent.click(screen.getByText("Clear form"));
 
     expect(inputCategory.value).toBe("");
 
-    fireEvent.change(inputCategory, { target: { value: "Машина" } });
+    await userEvent.type(inputCategory, "Машина");
 
     const inputSubcategories = screen.getByTestId(
       "subcategories",
     ) as HTMLInputElement;
 
-    fireEvent.change(inputSubcategories, { target: { value: "Сервис" } });
+    await userEvent.type(inputSubcategories, "Сервис");
 
     fireEvent.keyDown(inputSubcategories, {
       key: "Enter",
@@ -71,7 +71,7 @@ describe("Setting", () => {
 
     expect(inputSubcategories.value).toBe("");
 
-    fireEvent.change(inputSubcategories, { target: { value: "Заправка" } });
+    await userEvent.type(inputSubcategories, "Заправка");
 
     fireEvent.keyDown(inputSubcategories, {
       key: "Enter",
@@ -85,9 +85,10 @@ describe("Setting", () => {
 
     expect(screen.queryAllByTestId("subcategory-value").length).toBe(1);
 
-    fireEvent.change(screen.getByTestId("description"), {
-      target: { value: "Расходы на машину!" },
-    });
+    await userEvent.type(
+      screen.getByTestId("description"),
+      "Расходы на машину!",
+    );
 
     await userEvent.click(screen.getByText("Create"));
 

@@ -1,22 +1,17 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { v4 } from "uuid";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 import store from "./store/store";
-import { addUser, deleteUser } from "./store/slices/sliceUser";
+import { addUser } from "./store/slices/sliceUser";
 import { addCategories } from "./store/slices/sliceCategories";
 import { addExpenses } from "./store/slices/sliceExpenses";
 
-const sleep = (x: number) =>
-  new Promise((r) => {
-    setTimeout(r, x);
-  });
-
 describe("App", () => {
-  it("render component", async () => {
+  it("checking the rendering of the App component, transition to the Reports page and rendering of reports", async () => {
     const user = userEvent.setup();
 
     store.dispatch(addUser({ userId: v4(), name: "Евгений" }));

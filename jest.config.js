@@ -1,4 +1,4 @@
-const globals = require("./globals.ts");
+const globals = require("./globals.ts"); // eslint-disable-line import/extensions
 /**
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
