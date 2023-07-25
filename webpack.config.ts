@@ -4,17 +4,18 @@ import { resolve } from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import pkg from "./package.json";
 
 type Mode = "none" | "production" | "development" | undefined;
 
 const NODE_ENV: Mode = process.env.NODE_ENV as Mode;
 
-// const PREFIX = NODE_ENV === "production" ? "/otus--homework--21" : "";
+const PREFIX = NODE_ENV === "production" ? `/${pkg.name}` : "";
 
 const config: webpack.Configuration = {
   entry: { index: resolve(__dirname, "./src/index.tsx") },
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx"],
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
   },
   output: {
     path: resolve(__dirname, "dist"),
@@ -23,7 +24,7 @@ const config: webpack.Configuration = {
     environment: {
       arrowFunction: false,
     },
-    publicPath: NODE_ENV === "production" ? "/otus--homework--21/" : "/",
+    publicPath: NODE_ENV === "production" ? `/${pkg.name}/` : "/",
   },
   module: {
     rules: [
@@ -35,9 +36,8 @@ const config: webpack.Configuration = {
         },
       },
       {
-        test: /\.s[ac]ss$/i,
-        exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
@@ -56,10 +56,9 @@ const config: webpack.Configuration = {
       template: "index.html",
       filename: "404.html",
     }),
-    // new webpack.DefinePlugin({
-    //   PRODUCTION: NODE_ENV === "production",
-    //   PREFIX: JSON.stringify(PREFIX),
-    // }),
+    new webpack.DefinePlugin({
+      PREFIX: JSON.stringify(PREFIX),
+    }),
     new MiniCssExtractPlugin(),
   ],
   optimization: {

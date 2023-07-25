@@ -34,7 +34,7 @@ module.exports = {
   plugins: ["jest", "@typescript-eslint", "react"],
   ignorePatterns: ["**/dist/**"],
   rules: {
-    "import/extensions": ["warn", { ts: "never", tsx: "never" }],
+    "import/extensions": ["warn", { css: "never", ts: "never", tsx: "never" }],
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": [
       "error",
@@ -42,18 +42,14 @@ module.exports = {
         packageDir: __dirname,
       },
     ],
-    "no-underscore-dangle": [
-      "error",
-      { allow: ["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] },
-    ],
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
-    "default-param-last": "off",
-    "class-methods-use-this": "off",
+    "no-console": "off",
+    "no-await-in-loop": "off",
     "prefer-destructuring": ["error", { object: true, array: false }],
+    "max-classes-per-file": ["error", { ignoreExpressions: true, max: 2 }],
   },
   settings: {
     react: {
@@ -61,7 +57,7 @@ module.exports = {
     },
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".jsx", ".tsx", ".d.tsx"],
+        extensions: [".js", ".ts", ".jsx", ".tsx", "*.css", ".d.ts"],
       },
     },
   },
